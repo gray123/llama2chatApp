@@ -4,6 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send
 from huggingface_hub import login
+from langchain_mdl import durham_langchain
 
 import os
 from os.path import join, dirname
@@ -11,24 +12,13 @@ from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
-
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-login(token=SECRET_KEY)
-
 timeStart = time.time()
-
-tokenizer = AutoTokenizer.from_pretrained(
-    "meta-llama/Llama-2-13b-chat-hf"
-)
-
-model = AutoModelForCausalLM.from_pretrained(
-    "meta-llama/Llama-2-13b-chat-hf",
-    torch_dtype=torch.bfloat16,
-    low_cpu_mem_usage=True,
-)
-
-print("Load model time: ", -timeStart + time.time())
+gpt = durham_langchain()
+gpt.init_gpt_mdl()
+gpt.init_vdb()
+print("Load model time: {:.3} sec".format(time.time()-timeStart))
 
 app = Flask(__name__)
 app.config['SECRET'] = SECRET_KEY
@@ -43,17 +33,7 @@ def handle_message(message):
       question = message.split("@bot",1)[1]
 
       timeStart = time.time()
-      inputs = tokenizer.encode(
-        question,
-        return_tensors="pt"
-      )
-
-      outputs = model.generate(
-        inputs,
-        max_new_tokens=int(50),
-      )
-
-      answers = tokenizer.decode(outputs[0]) + " bot gen time {:.3}sec".format(time.time()-timeStart)
+      answers = gpt.infer(question) + "\n\n bot gen time {:.3} sec".format(time.time()-timeStart)
       send(answers, broadcast=True)
      
 
