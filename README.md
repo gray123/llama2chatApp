@@ -1,10 +1,22 @@
-1. Go to huggingface.co to create an account and get token_key
-2. create .env under the project dir with one line "SECRET_KEY=YOUR_TOKEN_KEY_ON_HUGGINEFACE"
-3. install conda
-4. conda create -n py_3_11_lamma2_run python=3.11 -y
-5. conda activate py_3_11_lamma2_run
-6. pip install transformers torch accelerate flask flask_socketio huggingface_hub
-7. python app.py
-8. open your browser with "localhost:5000"
-9. During chat, anytime, "@bot" 4 char key word will send the string after this key word to Llamma2 local model
-10. Response from the model will be send to the screen
+# Conda env setup
+## Go to https://www.anaconda.com/download to install conda
+## Conda env setup in conda terminal
+### "conda create -n py_3_11_chatBot_run python=3.11 -y"
+### "conda activate py_3_11_chatBot_run"
+### "conda install -c conda-forge faiss-gpu cudatoolkit=11.8"
+
+# Install python dependency in conda env
+## "pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118"
+## "pip install transformers==4.34.1"
+## "pip install langchain xformers sentence-transformers python_dotenv atlassian-python-api markdownify flask flask_socketio"
+
+# Get API_KEY such that we can download huggingface Llama2 model
+## Go to huggingface.co to create an account and get token_key
+## create .env under the project dir with one line: SECRET_KEY=YOUR_TOKEN_KEY_ON_HUGGINEFACE
+
+# Run the app
+## "python app.py"
+
+# Have fun with it
+## open your browser with "localhost:5000"
+## During chat, anytime, "@bot" 4 char key word will send the string after this key word to Llamma2 local model
