@@ -10,7 +10,7 @@
   - "pip install transformers==4.34.1"
   - "pip install langchain xformers sentence-transformers python_dotenv atlassian-python-api markdownify flask flask_socketio"
 
-# Get API_KEY such that we can download huggingface Llama2 model
+# Greate API_KEY such to download huggingface Llama2 model
   - Go to huggingface.co to create an account and get token_key
   - create .env under the project dir with one line: SECRET_KEY=YOUR_TOKEN_KEY_ON_HUGGINEFACE
 
